@@ -5,14 +5,16 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */ // Logica es CONTROLLER::METODO
-$routes->get('/', 'Auth::index');
+
+//LOGICA DEL LOGIN
+$routes->get('/', 'Auth::index'); //Por defecto va a la pagina de login
+$routes->post('login', 'Auth::intentarLogin');
+$routes->get('registro', 'Auth::registro');
+
 $routes->post('gastos/guardar', 'Home::guardarGasto');
 
-// Rutas de Autenticación - Tema login
-$routes->get('login', 'Auth::login');
-$routes->post('auth/login', 'Auth::intentarLogin');
 
-$routes->get('registro', 'Auth::registro');
-$routes->post('auth/registrar', 'Auth::intentarRegistrar');
+
+$routes->post('/registrar', 'Auth::intentarRegistrar');
 
 $routes->get('logout', 'Auth::logout');

@@ -9,7 +9,7 @@
 </head>
 
 <body>
-
+    
     <div class="container">
         <div class="row">
             <div class="col-md-6 offset-md-3">
@@ -17,7 +17,7 @@
                 <div class="text-center mb-5 text-dark">Bienvenido de nuevo ✨</div>
                 <div class="card my-5">
 
-                    <form class="card-body cardbody-color p-lg-5" action="<?= base_url('auth/intentarLogin') ?>" method="POST">
+                    <form class="card-body cardbody-color p-lg-5" action="<?= base_url('login') ?>" method="POST">
                         <!-- Agregar un token de seguridad     -->
                         <?= csrf_field() ?>
                         <div class="text-center">

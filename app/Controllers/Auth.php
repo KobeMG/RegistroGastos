@@ -11,4 +11,47 @@ class Auth extends BaseController
     {
         return view('auth/login');
     }
+
+   //Intentar login
+   public function intentarLogin()
+   {
+         $model = new \App\Models\UsuarioModel();
+    
+         $email = $this->request->getPost('email');
+         $password = $this->request->getPost('password');
+    
+         $usuario = $model->where('email', $email)->first();
+    
+         if ($usuario && password_verify($password, $usuario['password'])) {
+              // Credenciales válidas, iniciar sesión
+              session()->set('usuario_id', $usuario['id']);
+              return redirect()->to(base_url('home'));
+         } else {
+              // Credenciales inválidas, mostrar error
+              return redirect()->back()->with('error', 'Correo electrónico o contraseña incorrectos.');
+         }
+   }
+
+    public function registro()
+    {
+     return view('auth/registro');
+    }
+
+    public function intentarRegistrar() {
+    $model = new \App\Models\UsuarioModel();
+
+    $passwordPlana = $this->request->getPost('password');
+    
+    $data = [
+        'nombre'   => $this->request->getPost('nombre'),
+        'email'    => $this->request->getPost('email'),
+        // Encriptar la contraseña por seguridad
+        'password' => password_hash($passwordPlana, PASSWORD_DEFAULT) 
+    ];
+
+    $model->insert($data);
+
+    return redirect()->to(base_url(''))->with('success', '¡Usuario creado exitosamente! Ya puedes iniciar sesión.');
+}
+
 }
