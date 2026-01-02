@@ -19,7 +19,7 @@ class Home extends BaseController
         $model = new \App\Models\GastoModel();
 
         $data = [
-            'usuario_id'   => 1, // Usuario de prueba
+            'usuario_id'   => session()->get('usuario_id'),
             'categoria_id' => $this->request->getPost('categoria_id'),
             'monto'        => $this->request->getPost('monto'),
             'descripcion'  => $this->request->getPost('descripcion'),
@@ -28,6 +28,6 @@ class Home extends BaseController
 
         $model->insert($data);
 
-        return redirect()->to(base_url('/'))->with('mensaje', 'Gasto guardado con éxito');
+        return redirect()->to(base_url('home'))->with('success', 'Gasto guardado con éxito');
     }
 }

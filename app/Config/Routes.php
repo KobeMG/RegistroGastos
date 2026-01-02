@@ -10,7 +10,7 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Auth::index'); //Por defecto va a la pagina de login
 $routes->post('login', 'Auth::intentarLogin');
 $routes->get('registro', 'Auth::registro');
-
+$routes->get('home', 'Home::index');
 $routes->post('gastos/guardar', 'Home::guardarGasto');
 
 

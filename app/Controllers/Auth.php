@@ -24,7 +24,12 @@ class Auth extends BaseController
     
          if ($usuario && password_verify($password, $usuario['password'])) {
               // Credenciales válidas, iniciar sesión
-              session()->set('usuario_id', $usuario['id']);
+              session()->set([
+                  'usuario_id' => $usuario['id'],
+                  'usuario_nombre' => $usuario['nombre'],
+                  'usuario_email' => $usuario['email'],
+                  'logueado' => true
+              ]);
               return redirect()->to(base_url('home'));
          } else {
               // Credenciales inválidas, mostrar error
@@ -53,5 +58,11 @@ class Auth extends BaseController
 
     return redirect()->to(base_url(''))->with('success', '¡Usuario creado exitosamente! Ya puedes iniciar sesión.');
 }
+
+    public function logout()
+    {
+        session()->destroy();
+        return redirect()->to(base_url(''))->with('success', 'Sesión cerrada correctamente.');
+    }
 
 }

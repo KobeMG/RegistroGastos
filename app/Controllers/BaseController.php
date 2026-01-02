@@ -25,7 +25,7 @@ abstract class BaseController extends Controller
      * The creation of dynamic property is deprecated in PHP 8.2.
      */
 
-    // protected $session;
+    protected $session;
 
     /**
      * @return void
@@ -34,12 +34,47 @@ abstract class BaseController extends Controller
     {
         // Load here all helpers you want to be available in your controllers that extend BaseController.
         // Caution: Do not put the this below the parent::initController() call below.
-        // $this->helpers = ['form', 'url'];
+        helper(['form', 'url']);
 
         // Caution: Do not edit this line.
         parent::initController($request, $response, $logger);
 
         // Preload any models, libraries, etc, here.
-        // $this->session = service('session');
+        $this->session = service('session');
+        
+        // Cargar datos del usuario autenticado y pasarlos a todas las vistas
+        $this->cargarDatosUsuario();
+    }
+    
+    /**
+     * Cargar datos del usuario autenticado desde la sesión
+     * y hacerlos disponibles en todas las vistas
+     */
+    protected function cargarDatosUsuario()
+    {
+        $usuarioData = null;
+        
+        if ($this->session->has('usuario_id')) {
+            $model = new \App\Models\UsuarioModel();
+            $usuario = $model->find($this->session->get('usuario_id'));
+            
+            if ($usuario) {
+                $usuarioData = [
+                    'id' => $usuario['id'],
+                    'nombre' => $usuario['nombre'],
+                    'email' => $usuario['email']
+                ];
+            }
+        }
+        
+        // Cargar categorías para el modal de gastos
+        $categoriaModel = new \App\Models\CategoriaModel();
+        $categorias = $categoriaModel->findAll();
+        
+        // Hacer los datos disponibles globalmente en todas las vistas
+        service('renderer')->setData([
+            'usuario' => $usuarioData,
+            'categorias' => $categorias
+        ], 'raw');
     }
 }
