@@ -1,0 +1,16 @@
+.git
+.gitignore
+README.md
+tests/
+writable/logs/*
+writable/cache/*
+writable/session/*
+writable/debugbar/*
+!writable/logs/index.html
+!writable/cache/index.html
+!writable/session/index.html
+!writable/debugbar/index.html
+vendor/
+node_modules/
+*.md
+.env.example

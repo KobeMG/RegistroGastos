@@ -30,7 +30,7 @@
                         </div>
                       
                         <div class="text-center text-dark">
-                            GastosPro © 2024 - No soy responsable de tus gastos ni de ofrecerte un buen manejo de la información.
+                            GastosPro © 2026 - No soy responsable de tus gastos ni de ofrecerte un buen manejo de la información.
                         </div>
 
                     </form>

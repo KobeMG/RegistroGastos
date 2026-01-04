@@ -5,12 +5,12 @@
 <?= $this->section('subtitle') ?>Bienvenido de nuevo ✨<?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
-                    <form id="frmLogin" class="card-body cardbody-color p-lg-5" action="<?= base_url('login') ?>" method="POST">
+                    <form id="frmLogin" class="card-body cardbody-color p-3 p-lg-5" action="<?= base_url('login') ?>" method="POST">
                         <!-- Agregar un token de seguridad     -->
                         <?= csrf_field() ?>
                         <div class="text-center">
                             <img src="https://cdn.pixabay.com/photo/2016/03/31/19/56/avatar-1295397__340.png"
-                                class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3" width="200px" alt="profile">
+                                class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3" alt="profile">
                         </div>
 
                         <div class="mb-3">

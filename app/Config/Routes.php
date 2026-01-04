@@ -12,6 +12,7 @@ $routes->post('login', 'Auth::intentarLogin');
 $routes->get('registro', 'Auth::registro');
 $routes->get('home', 'Home::index');
 $routes->post('gastos/guardar', 'Home::guardarGasto');
+$routes->post('gastos/eliminar/(:num)', 'Home::eliminarGasto/$1');
 
 
 

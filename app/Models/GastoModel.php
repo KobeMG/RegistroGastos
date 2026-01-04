@@ -43,4 +43,16 @@ class GastoModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    /**
+     * Obtener todos los gastos de un usuario con información de categoría
+     */
+    public function getGastosPorUsuario($usuarioId)
+    {
+        return $this->select('gastos.*, categorias.nombre as categoria_nombre')
+                    ->join('categorias', 'categorias.id = gastos.categoria_id', 'left')
+                    ->where('gastos.usuario_id', $usuarioId)
+                    ->orderBy('gastos.fecha_gasto', 'DESC')
+                    ->findAll();
+    }
 }

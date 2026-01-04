@@ -10,12 +10,23 @@
   object-fit: cover;
 }
 
-
-
 .cardbody-color{
   background-color: #ebf2fa;
 }
 
 a{
   text-decoration: none;
+}
+
+/* Media queries para dispositivos móviles */
+@media (max-width: 768px) {
+  .profile-image-pic {
+    height: 120px;
+    width: 120px;
+  }
+  
+  .container {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
 }
