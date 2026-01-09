@@ -67,4 +67,53 @@ class Home extends BaseController
         
         return redirect()->to(base_url('home'))->with('error', 'No tienes permiso para eliminar este gasto');
     }
+    public function editarGasto($id)
+    {
+        $gastoModel = new GastoModel();
+        
+        // Verificar que el gasto pertenece al usuario logueado
+        $gasto = $gastoModel->find($id);
+        
+        if (!$gasto || $gasto['usuario_id'] != session()->get('usuario_id')) {
+            return redirect()->to(base_url('home'))->with('error', 'No tienes permiso para editar este gasto');
+        }
+        
+        $categoriaModel = new CategoriaModel();
+        $categorias = $categoriaModel->findAll();
+        
+        $usuario = [
+            'id' => session()->get('usuario_id'),
+            'nombre' => session()->get('usuario_nombre'),
+            'email' => session()->get('usuario_email')
+        ];
+        
+        return view('dashboard', [
+            'categorias' => $categorias,
+            'gasto_editar' => $gasto,
+            'usuario' => $usuario
+        ]);
+    }
+
+    public function actualizarGasto($id)
+    {
+        $gastoModel = new GastoModel();
+        
+        // Verificar que el gasto pertenece al usuario logueado
+        $gasto = $gastoModel->find($id);
+        
+        if (!$gasto || $gasto['usuario_id'] != session()->get('usuario_id')) {
+            return redirect()->to(base_url('home'))->with('error', 'No tienes permiso para actualizar este gasto');
+        }
+        
+        $data = [
+            'categoria_id' => $this->request->getPost('categoria_id'),
+            'monto'        => $this->request->getPost('monto'),
+            'descripcion'  => $this->request->getPost('descripcion'),
+            'fecha_gasto'  => $this->request->getPost('fecha_gasto'),
+        ];
+        
+        $gastoModel->update($id, $data);
+        
+        return redirect()->to(base_url('home'))->with('success', 'Gasto actualizado con éxito');
+    }
 }

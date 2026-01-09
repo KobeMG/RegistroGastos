@@ -15,7 +15,8 @@
             <th>Categoría</th>
             <th>Descripción</th>
             <th>Monto</th>
-            <th>Acciones</th>
+            <th>Modificación</th>
+            <th>Eliminación</th>
           </tr>
         </thead>
         <tbody>
@@ -24,7 +25,12 @@
               <td><?= esc($gasto['fecha_gasto']) ?></td>
               <td><?= esc($gasto['categoria_nombre'] ?? 'Sin categoría') ?></td>
               <td><?= esc($gasto['descripcion']) ?></td>
-              <td>$<?= number_format($gasto['monto'], 2) ?></td>
+              <td>₡<?= number_format($gasto['monto'], 2) ?></td>
+              <td>
+                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modalEditarGasto" onclick="cargarDatosGasto(<?= $gasto['id'] ?>, '<?= esc($gasto['categoria_id']) ?>', <?= $gasto['monto'] ?>, '<?= esc($gasto['descripcion']) ?>', '<?= esc($gasto['fecha_gasto']) ?>')">
+                  <i class="fa-solid fa-pen-to-square"></i> Modificar
+                </button>
+              </td>
               <td>
                 <form action="<?= base_url('gastos/eliminar/' . $gasto['id']) ?>" method="post" style="display: inline;" onsubmit="return confirm('¿Estás seguro de eliminar este gasto?');">
                   <button type="submit" class="btn btn-danger btn-sm">

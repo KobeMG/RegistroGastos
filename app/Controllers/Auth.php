@@ -33,7 +33,8 @@ class Auth extends BaseController
               return redirect()->to(base_url('home'));
          } else {
               // Credenciales inválidas, mostrar error
-              return redirect()->back()->with('error', 'Correo electrónico o contraseña incorrectos.');
+              session()->setFlashdata('error', 'Correo electrónico o contraseña incorrectos.');
+              return redirect()->back();
          }
    }
 
