@@ -8,6 +8,7 @@ use CodeIgniter\Router\RouteCollection;
 
 //LOGICA DEL LOGIN
 $routes->get('/', 'Auth::index'); //Por defecto va a la pagina de login
+$routes->get('login', 'Auth::index');
 $routes->post('login', 'Auth::intentarLogin');
 $routes->get('logout', 'Auth::logout');
 
@@ -21,6 +22,7 @@ $routes->post('gastos/eliminar/(:num)', 'Home::eliminarGasto/$1');
 
 //Registro de usuarios
 $routes->get('registro', 'Auth::registro');
+$routes->get('registrar', 'Auth::registro');
 $routes->post('/registrar', 'Auth::intentarRegistrar');
 
 //Perfil de usuario

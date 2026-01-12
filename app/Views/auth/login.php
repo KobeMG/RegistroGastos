@@ -42,7 +42,7 @@
 
 
     document.getElementById('frmLogin').addEventListener('submit', function(e) {
-        e.preventDefault();
+    e.preventDefault();
 
         // Validar que los campos no estén vacíos
         const email = document.getElementById('email').value;
