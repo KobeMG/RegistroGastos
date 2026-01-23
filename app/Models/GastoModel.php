@@ -12,7 +12,7 @@ class GastoModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields = ['usuario_id', 'categoria_id', 'monto', 'descripcion', 'fecha_gasto'];
+    protected $allowedFields = ['usuario_id', 'categoria_id', 'monto', 'descripcion', 'fecha_gasto', 'periodo'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -35,14 +35,44 @@ class GastoModel extends Model
 
     // Callbacks
     protected $allowCallbacks = true;
-    protected $beforeInsert   = [];
+    protected $beforeInsert   = ['validarPeriodoNoCerrado'];
     protected $afterInsert    = [];
-    protected $beforeUpdate   = [];
+    protected $beforeUpdate   = ['validarPeriodoNoCerrado'];
     protected $afterUpdate    = [];
     protected $beforeFind     = [];
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    /**
+     * Valida que no se pueda crear/editar un gasto en un mes ya cerrado.
+     */
+    protected function validarPeriodoNoCerrado(array $data): array
+    {
+        if (!isset($data['data']['fecha_gasto']) || !isset($data['data']['usuario_id'])) {
+            return $data;
+        }
+
+        $fecha = $data['data']['fecha_gasto'];
+        $periodo = date('Y-m', strtotime($fecha));
+        [$anio, $mes] = explode('-', $periodo);
+
+        $cierreModel = new \App\Models\CierreModel();
+        $cierre = $cierreModel
+            ->where('usuario_id', $data['data']['usuario_id'])
+            ->where('anio', (int) $anio)
+            ->where('mes', (int) $mes)
+            ->first();
+
+        if ($cierre) {
+            throw new \RuntimeException("No se puede modificar gastos de un período cerrado ({$periodo}).");
+        }
+
+        // Asignar período automáticamente.
+        $data['data']['periodo'] = $periodo;
+
+        return $data;
+    }
 
     /**
      * Obtener todos los gastos de un usuario con información de categoría

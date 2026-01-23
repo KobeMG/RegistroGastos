@@ -39,3 +39,6 @@ $routes->post('perfil/eliminar-ingreso/(:num)', 'Perfil::eliminarIngreso/$1');
 //Dashboard Financiero
 $routes->get('dashboard-financiero', 'DashboardFinanciero::index');
 
+//Cierres de mes
+$routes->get('cierres', 'Cierres::index');
+$routes->get('cierres/ver/(:num)', 'Cierres::ver/$1');

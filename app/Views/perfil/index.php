@@ -1,337 +1,252 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Perfil - Registro de Gastos</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<?= $this->extend('layouts/navbar') ?>
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
+<?= $this->section('content') ?>
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+        <h2 class="mb-0"><i class="fa-solid fa-user-circle text-info"></i> Mi Perfil</h2>
+        <small class="text-muted">Gestiona tu información personal e ingresos</small>
+    </div>
+    <div>
+        <a href="<?= base_url('home') ?>" class="btn btn-outline-secondary">
+            <i class="fa-solid fa-arrow-left"></i> Volver al Dashboard
+        </a>
+    </div>
+</div>
 
-        .header {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+<?php if (session()->getFlashdata('success')): ?>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fa-solid fa-check-circle"></i> <?= session()->getFlashdata('success') ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+<?php endif; ?>
 
-        .header h1 {
-            color: #333;
-            margin-bottom: 10px;
-        }
+<?php if (session()->getFlashdata('error')): ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fa-solid fa-exclamation-triangle"></i> <?= session()->getFlashdata('error') ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+<?php endif; ?>
 
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background: #667eea;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background 0.3s;
-        }
-
-        .btn:hover {
-            background: #5568d3;
-        }
-
-        .btn-danger {
-            background: #e74c3c;
-        }
-
-        .btn-danger:hover {
-            background: #c0392b;
-        }
-
-        .btn-success {
-            background: #27ae60;
-        }
-
-        .btn-success:hover {
-            background: #229954;
-        }
-
-        .btn-small {
-            padding: 5px 15px;
-            font-size: 12px;
-            margin: 0 5px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .card {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .card h2 {
-            color: #333;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #667eea;
-            padding-bottom: 10px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #555;
-            font-weight: 500;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .stat-card h3 {
-            font-size: 14px;
-            margin-bottom: 10px;
-            opacity: 0.9;
-        }
-
-        .stat-card .amount {
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .stat-card.ordinario {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-        }
-
-        .stat-card.extraordinario {
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-        }
-
-        .stat-card.total {
-            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
-        }
-
-        .ingresos-list {
-            margin-top: 20px;
-        }
-
-        .ingreso-item {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .ingreso-info {
-            flex: 1;
-        }
-
-        .ingreso-tipo {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 15px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .tipo-ordinario {
-            background: #3498db;
-            color: white;
-        }
-
-        .tipo-extraordinario {
-            background: #e74c3c;
-            color: white;
-        }
-
-        .ingreso-monto {
-            font-size: 24px;
-            font-weight: bold;
-            color: #27ae60;
-        }
-
-        .ingreso-actions {
-            display: flex;
-            gap: 5px;
-        }
-
-        .alert {
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-
-        .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .alert-error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        @media (max-width: 768px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
-
-            .stats {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>Mi Perfil</h1>
-            <a href="<?= base_url('home') ?>" class="btn">← Volver al Dashboard</a>
+<!-- Resumen de ingresos -->
+<div class="row g-3 mb-4">
+    <div class="col-12 col-md-4">
+        <div class="card shadow-sm border-primary h-100">
+            <div class="card-body text-center">
+                <div class="text-muted mb-2"><i class="fa-solid fa-money-bill-wave"></i> Ingresos Ordinarios</div>
+                <div class="h3 text-primary mb-0">₡ <?= number_format($totalOrdinarios, 2, ',', '.') ?></div>
+            </div>
         </div>
-
-        <?php if (session()->getFlashdata('success')): ?>
-            <div class="alert alert-success">
-                <?= session()->getFlashdata('success') ?>
+    </div>
+    <div class="col-12 col-md-4">
+        <div class="card shadow-sm border-warning h-100">
+            <div class="card-body text-center">
+                <div class="text-muted mb-2"><i class="fa-solid fa-gift"></i> Ingresos Extraordinarios</div>
+                <div class="h3 text-warning mb-0">₡ <?= number_format($totalExtraordinarios, 2, ',', '.') ?></div>
             </div>
-        <?php endif; ?>
-
-        <?php if (session()->getFlashdata('error')): ?>
-            <div class="alert alert-error">
-                <?= session()->getFlashdata('error') ?>
+        </div>
+    </div>
+    <div class="col-12 col-md-4">
+        <div class="card shadow-sm border-success h-100">
+            <div class="card-body text-center">
+                <div class="text-muted mb-2"><i class="fa-solid fa-coins"></i> Total Ingresos</div>
+                <div class="h3 text-success mb-0">₡ <?= number_format($totalIngresos, 2, ',', '.') ?></div>
             </div>
-        <?php endif; ?>
+        </div>
+    </div>
+</div>
 
-        <div class="grid">
-            <!-- Información del Usuario -->
-            <div class="card">
-                <h2>Información Personal</h2>
+<div class="row g-3">
+    <!-- Información personal -->
+    <div class="col-12 col-lg-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white">
+                <strong><i class="fa-solid fa-user-edit"></i> Información Personal</strong>
+            </div>
+            <div class="card-body">
                 <form action="<?= base_url('perfil/actualizar') ?>" method="post">
-                    <div class="form-group">
-                        <label>Nombre:</label>
-                        <input type="text" name="nombre" value="<?= esc($usuario['nombre']) ?>" required>
+                    <?= csrf_field() ?>
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" value="<?= esc($usuario['nombre']) ?>" required>
                     </div>
-                    <div class="form-group">
-                        <label>Email:</label>
-                        <input type="email" name="email" value="<?= esc($usuario['email']) ?>" required>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="<?= esc($usuario['email']) ?>" required>
                     </div>
-                    <div class="form-group">
-                        <label>Nueva Contraseña (dejar vacío para no cambiar):</label>
-                        <input type="password" name="password">
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Nueva Contraseña</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Dejar vacío para no cambiar">
+                        <small class="text-muted">Solo completa si deseas cambiar tu contraseña</small>
                     </div>
-                    <button type="submit" class="btn btn-success">Actualizar Perfil</button>
+                    <button type="submit" class="btn btn-success w-100">
+                        <i class="fa-solid fa-save"></i> Actualizar Perfil
+                    </button>
                 </form>
             </div>
-
-            <!-- Estadísticas de Ingresos -->
-            <div class="card">
-                <h2>Resumen de Ingresos</h2>
-                <div class="stats">
-                    <div class="stat-card ordinario">
-                        <h3>Ingresos Ordinarios</h3>
-                        <div class="amount">₡<?= number_format($totalOrdinarios, 2) ?></div>
-                    </div>
-                    <div class="stat-card extraordinario">
-                        <h3>Ingresos Extraordinarios</h3>
-                        <div class="amount">₡<?= number_format($totalExtraordinarios, 2) ?></div>
-                    </div>
-                    <div class="stat-card total">
-                        <h3>Total Ingresos</h3>
-                        <div class="amount">₡<?= number_format($totalIngresos, 2) ?></div>
-                    </div>
-                </div>
-
-                <a href="<?= base_url('perfil/nuevo-ingreso') ?>" class="btn btn-success">+ Agregar Ingreso</a>
-            </div>
         </div>
+    </div>
 
-        <!-- Lista de Ingresos -->
-        <div class="card">
-            <h2>Historial de Ingresos</h2>
-            <div class="ingresos-list">
+    <!-- Historial de ingresos -->
+    <div class="col-12 col-lg-8">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                <strong><i class="fa-solid fa-list"></i> Historial de Ingresos</strong>
+                <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalNuevoIngreso">
+                    <i class="fa-solid fa-plus"></i> Agregar Ingreso
+                </button>
+            </div>
+            <div class="card-body">
                 <?php if (empty($ingresos)): ?>
-                    <p style="text-align: center; color: #999; padding: 20px;">
-                        No hay ingresos registrados. ¡Agrega tu primer ingreso!
-                    </p>
+                    <div class="text-center text-muted py-5">
+                        <i class="fa-solid fa-inbox fa-3x mb-3 d-block"></i>
+                        <p>No hay ingresos registrados. ¡Agrega tu primer ingreso!</p>
+                    </div>
                 <?php else: ?>
-                    <?php foreach ($ingresos as $ingreso): ?>
-                        <div class="ingreso-item">
-                            <div class="ingreso-info">
-                                <span class="ingreso-tipo tipo-<?= $ingreso['tipo'] ?>">
-                                    <?= ucfirst($ingreso['tipo']) ?>
-                                </span>
-                                <div style="margin-top: 5px;">
-                                    <strong><?= esc($ingreso['descripcion'] ?? 'Sin descripción') ?></strong>
-                                </div>
-                                <div style="font-size: 12px; color: #666; margin-top: 5px;">
-                                    📅 <?= date('d/m/Y', strtotime($ingreso['fecha_ingreso'])) ?>
+                    <div class="list-group">
+                        <?php foreach ($ingresos as $ingreso): ?>
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between align-items-start">
+                                    <div class="flex-grow-1">
+                                        <span class="badge bg-<?= $ingreso['tipo'] == 'ordinario' ? 'primary' : 'warning' ?> mb-2">
+                                            <?= ucfirst($ingreso['tipo']) ?>
+                                        </span>
+                                        <?php if (!empty($ingreso['es_recurrente'])): ?>
+                                            <span class="badge bg-info mb-2 ms-1">Recurrente</span>
+                                        <?php endif; ?>
+                                        <div class="fw-semibold"><?= esc($ingreso['descripcion'] ?? 'Sin descripción') ?></div>
+                                        <small class="text-muted">
+                                            <i class="fa-solid fa-calendar"></i> <?= date('d/m/Y', strtotime($ingreso['fecha_ingreso'])) ?>
+                                        </small>
+                                    </div>
+                                    <div class="text-end">
+                                        <div class="h5 text-success mb-2">₡ <?= number_format($ingreso['monto'], 2, ',', '.') ?></div>
+                                        <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-outline-primary" 
+                                                    onclick="cargarDatosIngreso(<?= $ingreso['id'] ?>, <?= $ingreso['monto'] ?>, '<?= esc($ingreso['tipo']) ?>', '<?= esc($ingreso['descripcion'] ?? '') ?>', '<?= $ingreso['fecha_ingreso'] ?>', <?= !empty($ingreso['es_recurrente']) ? 'true' : 'false' ?>)"
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#modalEditarIngreso">
+                                                <i class="fa-solid fa-edit"></i>
+                                            </button>
+                                            <form action="<?= base_url('perfil/eliminar-ingreso/' . $ingreso['id']) ?>" method="post" class="d-inline" onsubmit="return confirm('¿Eliminar este ingreso?')">
+                                                <?= csrf_field() ?>
+                                                <button type="submit" class="btn btn-outline-danger">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div style="text-align: right;">
-                                <div class="ingreso-monto">₡<?= number_format($ingreso['monto'], 2) ?></div>
-                                <div class="ingreso-actions">
-                                    <a href="<?= base_url('perfil/editar-ingreso/' . $ingreso['id']) ?>" 
-                                       class="btn btn-small">Editar</a>
-                                    <form action="<?= base_url('perfil/eliminar-ingreso/' . $ingreso['id']) ?>" 
-                                          method="post" 
-                                          style="display: inline;"
-                                          onsubmit="return confirm('¿Estás seguro de eliminar este ingreso?')">
-                                        <button type="submit" class="btn btn-danger btn-small">Eliminar</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
     </div>
-</body>
-</html>
+</div>
+
+<!-- Modal Nuevo Ingreso -->
+<div class="modal fade" id="modalNuevoIngreso" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fa-solid fa-plus-circle"></i> Agregar Ingreso</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="<?= base_url('perfil/guardar-ingreso') ?>" method="post">
+                <?= csrf_field() ?>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="tipo" class="form-label">Tipo de Ingreso</label>
+                        <select class="form-select" id="tipo" name="tipo" required>
+                            <option value="ordinario">Ordinario</option>
+                            <option value="extraordinario">Extraordinario</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="monto" class="form-label">Monto (₡)</label>
+                        <input type="number" class="form-control" id="monto" name="monto" step="0.01" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fecha_ingreso" class="form-label">Fecha de Ingreso</label>
+                        <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso" value="<?= date('Y-m-d') ?>" required>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="es_recurrente" name="es_recurrente" value="1">
+                        <label class="form-check-label" for="es_recurrente">
+                            Ingreso recurrente (se copiará automáticamente cada mes)
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success"><i class="fa-solid fa-save"></i> Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Editar Ingreso -->
+<div class="modal fade" id="modalEditarIngreso" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fa-solid fa-edit"></i> Editar Ingreso</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="frmEditarIngreso" method="post">
+                <?= csrf_field() ?>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="tipo_editar" class="form-label">Tipo de Ingreso</label>
+                        <select class="form-select" id="tipo_editar" name="tipo" required>
+                            <option value="ordinario">Ordinario</option>
+                            <option value="extraordinario">Extraordinario</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="monto_editar" class="form-label">Monto (₡)</label>
+                        <input type="number" class="form-control" id="monto_editar" name="monto" step="0.01" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcion_editar" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="descripcion_editar" name="descripcion" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fecha_ingreso_editar" class="form-label">Fecha de Ingreso</label>
+                        <input type="date" class="form-control" id="fecha_ingreso_editar" name="fecha_ingreso" required>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="es_recurrente_editar" name="es_recurrente" value="1">
+                        <label class="form-check-label" for="es_recurrente_editar">
+                            Ingreso recurrente
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-save"></i> Actualizar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function cargarDatosIngreso(id, monto, tipo, descripcion, fecha, esRecurrente) {
+    document.getElementById('tipo_editar').value = tipo;
+    document.getElementById('monto_editar').value = monto;
+    document.getElementById('descripcion_editar').value = descripcion;
+    document.getElementById('fecha_ingreso_editar').value = fecha;
+    document.getElementById('es_recurrente_editar').checked = esRecurrente;
+    document.getElementById('frmEditarIngreso').action = '<?= base_url('perfil/actualizar-ingreso/') ?>' + id;
+}
+</script>
+
+<?= $this->endSection() ?>

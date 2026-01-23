@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
+use App\Services\CierreMesService;
 
 class Auth extends BaseController
 {
@@ -30,6 +31,13 @@ class Auth extends BaseController
                   'usuario_email' => $usuario['email'],
                   'logueado' => true
               ]);
+
+              try {
+                  $cierreService = new CierreMesService();
+                  $cierreService->asegurarCierreMesAnterior($usuario['id']);
+              } catch (\Throwable $e) {
+                  log_message('error', 'No se pudo validar el cierre de mes al iniciar sesión: {message}', ['message' => $e->getMessage()]);
+              }
               return redirect()->to(base_url('home'));
          } else {
               // Credenciales inválidas, mostrar error

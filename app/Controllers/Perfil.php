@@ -6,16 +6,19 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\UsuarioModel;
 use App\Models\IngresoModel;
+use App\Models\CategoriaModel;
 
 class Perfil extends BaseController
 {
     protected $usuarioModel;
     protected $ingresoModel;
+    protected $categoriaModel;
 
     public function __construct()
     {
         $this->usuarioModel = new UsuarioModel();
         $this->ingresoModel = new IngresoModel();
+        $this->categoriaModel = new CategoriaModel();
     }
 
     /**
@@ -46,7 +49,8 @@ class Perfil extends BaseController
             'ingresos' => $ingresos,
             'totalOrdinarios' => $totalOrdinarios,
             'totalExtraordinarios' => $totalExtraordinarios,
-            'totalIngresos' => $totalIngresos
+            'totalIngresos' => $totalIngresos,
+            'categorias' => $this->categoriaModel->findAll()
         ];
 
         return view('perfil/index', $data);
@@ -117,7 +121,8 @@ class Perfil extends BaseController
             'monto' => $this->request->getPost('monto'),
             'tipo' => $this->request->getPost('tipo'),
             'descripcion' => $this->request->getPost('descripcion'),
-            'fecha_ingreso' => $this->request->getPost('fecha_ingreso')
+            'fecha_ingreso' => $this->request->getPost('fecha_ingreso'),
+            'es_recurrente' => $this->request->getPost('es_recurrente') ? true : false
         ];
 
         if ($this->ingresoModel->insert($datos)) {
@@ -172,7 +177,8 @@ class Perfil extends BaseController
             'monto' => $this->request->getPost('monto'),
             'tipo' => $this->request->getPost('tipo'),
             'descripcion' => $this->request->getPost('descripcion'),
-            'fecha_ingreso' => $this->request->getPost('fecha_ingreso')
+            'fecha_ingreso' => $this->request->getPost('fecha_ingreso'),
+            'es_recurrente' => $this->request->getPost('es_recurrente') ? true : false
         ];
 
         if ($this->ingresoModel->update($id, $datos)) {

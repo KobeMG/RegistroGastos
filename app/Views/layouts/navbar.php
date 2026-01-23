@@ -121,6 +121,11 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="btn btn-warning text-white me-2" href="<?= base_url('cierres') ?>">
+                                <i class="fa-solid fa-calendar-check"></i> Cierres
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="btn btn-info text-white me-2" href="<?= base_url('perfil') ?>">
                                 <i class="fa-solid fa-user-circle"></i> Mi Perfil
                             </a>

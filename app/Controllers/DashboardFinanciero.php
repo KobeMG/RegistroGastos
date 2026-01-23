@@ -7,18 +7,21 @@ use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\UsuarioModel;
 use App\Models\IngresoModel;
 use App\Models\GastoModel;
+use App\Models\CategoriaModel;
 
 class DashboardFinanciero extends BaseController
 {
     protected $usuarioModel;
     protected $ingresoModel;
     protected $gastoModel;
+    protected $categoriaModel;
 
     public function __construct()
     {
         $this->usuarioModel = new UsuarioModel();
         $this->ingresoModel = new IngresoModel();
         $this->gastoModel = new GastoModel();
+        $this->categoriaModel = new CategoriaModel();
     }
 
     /**
@@ -103,7 +106,8 @@ class DashboardFinanciero extends BaseController
             'ingresos' => json_encode($ingresosArray),
             'gastos' => json_encode($gastosArray),
             'gastosPorCategoria' => $gastosPorCategoria,
-            'usuario' => $this->usuarioModel->find($usuarioId)
+            'usuario' => $this->usuarioModel->find($usuarioId),
+            'categorias' => $this->categoriaModel->findAll()
         ];
 
         return view('dashboard_financiero/index', $data);
