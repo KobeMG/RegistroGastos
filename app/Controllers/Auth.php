@@ -38,7 +38,7 @@ class Auth extends BaseController
               } catch (\Throwable $e) {
                   log_message('error', 'No se pudo validar el cierre de mes al iniciar sesión: {message}', ['message' => $e->getMessage()]);
               }
-              return redirect()->to(base_url('home'));
+              return redirect()->to(base_url('dashboard-financiero'));
          } else {
               // Credenciales inválidas, mostrar error
               session()->setFlashdata('error', 'Correo electrónico o contraseña incorrectos.');

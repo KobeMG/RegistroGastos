@@ -9,7 +9,7 @@
                         <!-- Agregar un token de seguridad     -->
                         <?= csrf_field() ?>
                         <div class="text-center">
-                            <img src="https://i.ibb.co/HfWPj1XG/0b25f465f3fac630ab8392e4ca48da3f.jpg"
+                            <img src="https://i.ibb.co/HfBpGyVy/boy.png"
                                 class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3" width="200px" alt="profile">
                         </div>
 
