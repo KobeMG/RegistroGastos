@@ -1,0 +1,33 @@
+name: Deploy a InfinityFree
+
+on:
+  push:
+    branches:
+      - main # Se activará cada vez que hagas push a la rama main
+
+jobs:
+  web-deploy:
+    name: 🎉 Desplegando Proyecto
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🚚 Sincronizando Código
+      uses: actions/checkout@v3
+
+    - name: 📂 Subiendo vía FTP
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        # /htdocs/ es la carpeta pública de InfinityFree
+        server-dir: /htdocs/ 
+        # Excluimos lo que no debe ir al servidor de producción
+        exclude: |
+          **/.git*
+          **/.github*
+          **/tests*
+          .env
+          phpunit.xml.dist
+          docker-compose.yml
+          Dockerfile
+          README.md
