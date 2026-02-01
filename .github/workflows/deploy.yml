@@ -13,7 +13,10 @@ jobs:
     - name: 🚚 Sincronizando Código
       uses: actions/checkout@v3
 
-    - name: 📂 Subiendo vía FTP
+    - name: � Instalando dependencias
+      run: composer install --no-dev --optimize-autoloader
+
+    - name: �📂 Subiendo vía FTP
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
         server: ${{ secrets.FTP_SERVER }}
