@@ -121,8 +121,7 @@ class Perfil extends BaseController
             'monto' => $this->request->getPost('monto'),
             'tipo' => $this->request->getPost('tipo'),
             'descripcion' => $this->request->getPost('descripcion'),
-            'fecha_ingreso' => $this->request->getPost('fecha_ingreso'),
-            'es_recurrente' => $this->request->getPost('es_recurrente') ? true : false
+            'fecha_ingreso' => $this->request->getPost('fecha_ingreso')
         ];
 
         if ($this->ingresoModel->insert($datos)) {
@@ -177,8 +176,7 @@ class Perfil extends BaseController
             'monto' => $this->request->getPost('monto'),
             'tipo' => $this->request->getPost('tipo'),
             'descripcion' => $this->request->getPost('descripcion'),
-            'fecha_ingreso' => $this->request->getPost('fecha_ingreso'),
-            'es_recurrente' => $this->request->getPost('es_recurrente') ? true : false
+            'fecha_ingreso' => $this->request->getPost('fecha_ingreso')
         ];
 
         if ($this->ingresoModel->update($id, $datos)) {

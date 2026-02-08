@@ -234,11 +234,8 @@
                             <label for="fecha_ingreso" class="form-label">Fecha del Ingreso</label>
                             <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso" value="<?= date('Y-m-d') ?>" required>
                         </div>
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" id="es_recurrente" name="es_recurrente" value="1">
-                            <label class="form-check-label" for="es_recurrente">
-                                Ingreso recurrente (se copiará automáticamente cada mes)
-                            </label>
+                        <div class="alert alert-info mb-0" role="alert">
+                            <small><i class="fa-solid fa-circle-info"></i> Los ingresos <strong>ordinarios</strong> se copiarán automáticamente al mes siguiente en el cierre.</small>
                         </div>
                     </div>
                     <div class="modal-footer">

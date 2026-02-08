@@ -94,11 +94,8 @@
                         <label for="fecha_ingreso_editar" class="form-label">Fecha de Ingreso</label>
                         <input type="date" class="form-control" id="fecha_ingreso_editar" name="fecha_ingreso" required>
                     </div>
-                    <div class="form-check mb-3">
-                        <input class="form-check-input" type="checkbox" id="es_recurrente_editar" name="es_recurrente" value="1">
-                        <label class="form-check-label" for="es_recurrente_editar">
-                            Ingreso recurrente
-                        </label>
+                    <div class="alert alert-info mb-0" role="alert">
+                        <small><i class="fa-solid fa-circle-info"></i> Los ingresos <strong>ordinarios</strong> se copiarán automáticamente al mes siguiente en el cierre.</small>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -111,12 +108,11 @@
 </div>
 
 <script>
-function cargarDatosIngreso(id, monto, tipo, descripcion, fecha, esRecurrente) {
+function cargarDatosIngreso(id, monto, tipo, descripcion, fecha) {
     document.getElementById('tipo_editar').value = tipo;
     document.getElementById('monto_editar').value = monto;
     document.getElementById('descripcion_editar').value = descripcion;
     document.getElementById('fecha_ingreso_editar').value = fecha;
-    document.getElementById('es_recurrente_editar').checked = esRecurrente;
     document.getElementById('frmEditarIngreso').action = '<?= base_url('perfil/actualizar-ingreso/') ?>' + id;
 }
 </script>

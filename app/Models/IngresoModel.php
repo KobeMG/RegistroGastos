@@ -12,7 +12,7 @@ class IngresoModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['usuario_id', 'monto', 'tipo', 'descripcion', 'fecha_ingreso', 'es_recurrente', 'periodo'];
+    protected $allowedFields    = ['usuario_id', 'monto', 'tipo', 'descripcion', 'fecha_ingreso', 'periodo'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

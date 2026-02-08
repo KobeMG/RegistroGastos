@@ -82,27 +82,28 @@ class CierreMesService
     }
 
     /**
-     * Genera los ingresos recurrentes para el mes actual basándose en los del mes anterior.
+     * Genera los ingresos ordinarios para el mes actual basándose en los del mes anterior.
+     * Los ingresos ordinarios se copian automáticamente cada mes (son recurrentes por naturaleza).
      */
     private function generarIngresosRecurrentes(int $usuarioId, IngresoModel $ingresoModel): void
     {
         $hoy = new DateTimeImmutable('now');
         $mesActual = $hoy->format('Y-m');
 
-        // Buscar ingresos recurrentes del mes anterior.
+        // Buscar ingresos ordinarios del mes anterior que deben copiarse.
         $mesAnterior = $hoy->modify('first day of last month')->format('Y-m');
         
-        $recurrentes = $ingresoModel
+        $ordinarios = $ingresoModel
             ->where('usuario_id', $usuarioId)
-            ->where('es_recurrente', true)
+            ->where('tipo', 'ordinario')
             ->where('periodo', $mesAnterior)
             ->findAll();
 
-        foreach ($recurrentes as $ingreso) {
+        foreach ($ordinarios as $ingreso) {
             // Verificar si ya existe una copia para el mes actual.
             $existe = $ingresoModel
                 ->where('usuario_id', $usuarioId)
-                ->where('es_recurrente', true)
+                ->where('tipo', 'ordinario')
                 ->where('periodo', $mesActual)
                 ->where('descripcion', $ingreso['descripcion'])
                 ->where('monto', $ingreso['monto'])
@@ -126,7 +127,6 @@ class CierreMesService
                     'tipo'           => $ingreso['tipo'],
                     'descripcion'    => $ingreso['descripcion'],
                     'fecha_ingreso'  => $nuevaFecha,
-                    'es_recurrente'  => true,
                     'periodo'        => $mesActual,
                 ]);
             }
