@@ -130,7 +130,7 @@ class Perfil extends BaseController
             session()->setFlashdata('error', 'Error al registrar el ingreso.');
         }
 
-        return redirect()->to(base_url('perfil'));
+        return redirect()->to(base_url('dashboard-financiero'));
     }
 
     /**
