@@ -10,7 +10,7 @@
         <small class="text-muted">Períodos cerrados y consolidados</small>
     </div>
     <div>
-        <a href="<?= base_url('home') ?>" class="btn btn-outline-secondary">
+        <a href="<?= base_url('dashboard-financiero') ?>" class="btn btn-outline-secondary">
             <i class="bi bi-arrow-left"></i> Volver al Dashboard
         </a>
     </div>

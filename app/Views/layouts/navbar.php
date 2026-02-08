@@ -103,7 +103,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
         <div class="container">
-            <a class="navbar-brand" ><i class="fa-solid fa-wallet"></i> GastosPro</a>
+            <a class="navbar-brand" ><i class="fa-solid fa-wallet"></i> Kobe's App</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -131,8 +131,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalGasto">
+                            <button class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#modalGasto">
                                 <i class="fa-solid fa-plus"></i> Nuevo Gasto
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#modalIngreso">
+                                <i class="fa-solid fa-plus"></i> Nuevo Ingreso
                             </button>
                         </li>
                         <li class="nav-item">
@@ -192,6 +197,53 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-primary"><i class="fa-solid fa-save"></i> Guardar Gasto</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para registrar ingreso -->
+    <div class="modal fade" id="modalIngreso" tabindex="-1" aria-labelledby="modalIngresoLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalIngresoLabel"><i class="fa-solid fa-money-bill-wave"></i> Registrar Nuevo Ingreso</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="<?= base_url('perfil/guardar-ingreso') ?>" method="POST">
+                    <?= csrf_field() ?>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="tipo" class="form-label">Tipo de Ingreso</label>
+                            <select class="form-select" id="tipo" name="tipo" required>
+                                <option value="" selected disabled>Selecciona un tipo</option>
+                                <option value="ordinario">Ordinario</option>
+                                <option value="extraordinario">Extraordinario</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="monto_ingreso" class="form-label">Monto (₡)</label>
+                            <input type="number" class="form-control" id="monto_ingreso" name="monto" step="0.01" placeholder="₡0.00" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="descripcion_ingreso" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="descripcion_ingreso" name="descripcion" rows="3" placeholder="Detalles del ingreso (opcional)"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="fecha_ingreso" class="form-label">Fecha del Ingreso</label>
+                            <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso" value="<?= date('Y-m-d') ?>" required>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="es_recurrente" name="es_recurrente" value="1">
+                            <label class="form-check-label" for="es_recurrente">
+                                Ingreso recurrente (se copiará automáticamente cada mes)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success"><i class="fa-solid fa-save"></i> Guardar Ingreso</button>
                     </div>
                 </form>
             </div>
@@ -262,7 +314,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <i class="fa-solid fa-wallet"></i> GastosPro
+                    <i class="fa-solid fa-wallet"></i> Kobe's App
                 </div>
                 <div class="footer-text">
                     Desarrollado por <strong>KodeCreative</strong>, una marca aspiracional de 

@@ -1,4 +1,4 @@
-# 💰 GastosPro - Sistema de Control Financiero Personal
+# 💰 Kobe's App - Sistema de Control Financiero Personal
 
 <div align="center">
 
@@ -17,7 +17,7 @@
 
 ## 📋 Descripción
 
-**GastosPro** es una aplicación web completa desarrollada con **CodeIgniter 4** que permite a los usuarios gestionar sus finanzas personales de manera eficiente. Con una interfaz moderna y responsiva, los usuarios pueden registrar gastos, administrar ingresos ordinarios y extraordinarios, y visualizar su situación financiera a través de un dashboard interactivo.
+**Kobe's App** es una aplicación web completa desarrollada con **CodeIgniter 4** que permite a los usuarios gestionar sus finanzas personales de manera eficiente. Con una interfaz moderna y responsiva, los usuarios pueden registrar gastos, administrar ingresos ordinarios y extraordinarios, y visualizar su situación financiera a través de un dashboard interactivo.
 
 ### ✨ Características Principales
 
