@@ -94,6 +94,48 @@ class Perfil extends BaseController
     }
 
     /**
+     * Generar token API para el usuario
+     */
+    public function generarToken()
+    {
+        if (!session()->get('logueado')) {
+            return redirect()->to(base_url('auth'));
+        }
+
+        $usuarioId = session()->get('usuario_id');
+        $token = $this->usuarioModel->generarApiToken($usuarioId);
+
+        if ($token) {
+            session()->setFlashdata('success', 'Token API generado correctamente.');
+            session()->setFlashdata('api_token', $token);
+        } else {
+            session()->setFlashdata('error', 'Error al generar el token API.');
+        }
+
+        return redirect()->to(base_url('perfil'));
+    }
+
+    /**
+     * Revocar token API del usuario
+     */
+    public function revocarToken()
+    {
+        if (!session()->get('logueado')) {
+            return redirect()->to(base_url('auth'));
+        }
+
+        $usuarioId = session()->get('usuario_id');
+        
+        if ($this->usuarioModel->revocarApiToken($usuarioId)) {
+            session()->setFlashdata('success', 'Token API revocado correctamente.');
+        } else {
+            session()->setFlashdata('error', 'Error al revocar el token API.');
+        }
+
+        return redirect()->to(base_url('perfil'));
+    }
+
+    /**
      * Mostrar formulario para agregar ingreso
      */
     public function nuevoIngreso()

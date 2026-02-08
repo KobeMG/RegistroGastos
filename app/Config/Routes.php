@@ -28,6 +28,8 @@ $routes->post('/registrar', 'Auth::intentarRegistrar');
 //Perfil de usuario
 $routes->get('perfil', 'Perfil::index');
 $routes->post('perfil/actualizar', 'Perfil::actualizar');
+$routes->post('perfil/generar-token', 'Perfil::generarToken');
+$routes->post('perfil/revocar-token', 'Perfil::revocarToken');
 
 //Gestión de ingresos
 $routes->get('perfil/nuevo-ingreso', 'Perfil::nuevoIngreso');
@@ -42,3 +44,9 @@ $routes->get('dashboard-financiero', 'DashboardFinanciero::index');
 //Cierres de mes
 $routes->get('cierres', 'Cierres::index');
 $routes->get('cierres/ver/(:num)', 'Cierres::ver/$1');
+
+// API Routes
+$routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes) {
+    // Gastos
+    $routes->post('gastos/registrar', 'Gastos::registrar');
+});
