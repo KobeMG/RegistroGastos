@@ -30,6 +30,7 @@ $routes->get('registrar', 'Auth::registro');
 $routes->post('/registrar', 'Auth::intentarRegistrar');
 //Gestión de ingresos
 $routes->get('perfil', 'Perfil::index');
+$routes->post('perfil/generar-token', 'Perfil::generarToken');
 $routes->get('perfil/nuevo-ingreso', 'Perfil::nuevoIngreso');
 $routes->post('perfil/guardar-ingreso', 'Perfil::guardarIngreso');
 $routes->get('perfil/editar-ingreso/(:num)', 'Perfil::editarIngreso/$1');
