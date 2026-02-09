@@ -44,8 +44,5 @@ $routes->get('dashboard-financiero', 'DashboardFinanciero::index');
 $routes->get('cierres', 'Cierres::index');
 $routes->get('cierres/ver/(:num)', 'Cierres::ver/$1');
 
-// API Routes
-$routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes) {
-    // Gastos
-    $routes->post('gastos/registrar', 'Gastos::registrar');
-});
+// Rutas de Gastos que devuelven JSON (alternativa a /api/ para evitar bloqueos del hosting)
+$routes->post('gastos/registrar-json', 'Api\Gastos::registrar', ['namespace' => 'App\Controllers']);
