@@ -35,6 +35,10 @@ class DashboardFinanciero extends BaseController
         }
 
         $usuarioId = session()->get('usuario_id');
+
+        // Obtener actividad reciente
+        $gastosRecientes = $this->gastoModel->getGastosRecientes($usuarioId, 10);
+        $ingresosRecientes = $this->ingresoModel->getIngresosRecientes($usuarioId, 10);
         
         // Obtener totales generales
         $totalIngresos = $this->ingresoModel->getTotalIngresos($usuarioId);
@@ -106,6 +110,8 @@ class DashboardFinanciero extends BaseController
             'ingresos' => json_encode($ingresosArray),
             'gastos' => json_encode($gastosArray),
             'gastosPorCategoria' => $gastosPorCategoria,
+            'gastosRecientes' => $gastosRecientes,
+            'ingresosRecientes' => $ingresosRecientes,
             'usuario' => $this->usuarioModel->find($usuarioId),
             'categorias' => $this->categoriaModel->findAll()
         ];

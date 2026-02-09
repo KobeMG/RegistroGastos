@@ -14,7 +14,89 @@
 			<i class="fa-solid fa-calendar-check"></i> Ir a Cierres
 		</a>
 	</div>
+</div>
+
+<!-- Actividad reciente -->
+<div class="card shadow-sm mt-4 mb-4">
+	<div class="card-header bg-white">
+		<strong><i class="fa-solid fa-clock-rotate-left"></i> Actividad reciente</strong>
 	</div>
+	<div class="card-body">
+		<?php
+		$actividadReciente = [];
+		$gastosRecientes = $gastosRecientes ?? [];
+		$ingresosRecientes = $ingresosRecientes ?? [];
+
+		foreach ($gastosRecientes as $gasto) {
+			$actividadReciente[] = [
+				'tipo' => 'gasto',
+				'fecha' => $gasto['fecha_gasto'],
+				'descripcion' => $gasto['descripcion'] ?? 'Sin descripción',
+				'categoria' => $gasto['categoria_nombre'] ?? 'Sin categoría',
+				'monto' => $gasto['monto'],
+			];
+		}
+
+		foreach ($ingresosRecientes as $ingreso) {
+			$actividadReciente[] = [
+				'tipo' => 'ingreso',
+				'fecha' => $ingreso['fecha_ingreso'],
+				'descripcion' => $ingreso['descripcion'] ?? 'Sin descripción',
+				'categoria' => ucfirst($ingreso['tipo'] ?? 'Ingreso'),
+				'monto' => $ingreso['monto'],
+			];
+		}
+
+		usort($actividadReciente, function ($a, $b) {
+			return strtotime($b['fecha']) <=> strtotime($a['fecha']);
+		});
+
+		$actividadReciente = array_slice($actividadReciente, 0, 15);
+		?>
+
+		<?php if (!empty($actividadReciente)): ?>
+			<div class="list-group list-group-flush">
+				<?php foreach ($actividadReciente as $item): ?>
+					<div class="list-group-item px-0">
+						<div class="d-flex w-100 justify-content-between align-items-center">
+							<div class="d-flex align-items-center flex-grow-1">
+								<div class="me-3">
+									<?php if ($item['tipo'] === 'gasto'): ?>
+										<div class="bg-danger bg-opacity-10 rounded-circle p-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+											<i class="fa-solid fa-arrow-up text-danger"></i>
+										</div>
+									<?php else: ?>
+										<div class="bg-success bg-opacity-10 rounded-circle p-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+											<i class="fa-solid fa-arrow-down text-success"></i>
+										</div>
+									<?php endif; ?>
+								</div>
+								<div class="flex-grow-1">
+									<div class="fw-semibold"><?= esc($item['descripcion']) ?></div>
+									<small class="text-muted">
+										<i class="fa-solid fa-tag"></i> <?= esc($item['categoria']) ?> ·
+										<i class="fa-solid fa-calendar"></i> <?= date('d/m/Y', strtotime($item['fecha'])) ?>
+									</small>
+								</div>
+							</div>
+							<div class="text-end ms-3">
+								<div class="fw-bold <?= $item['tipo'] === 'gasto' ? 'text-danger' : 'text-success' ?>">
+									<?= $item['tipo'] === 'gasto' ? '-' : '+' ?>₡ <?= number_format($item['monto'], 2, ',', '.') ?>
+								</div>
+							</div>
+						</div>
+					</div>
+				<?php endforeach; ?>
+			</div>
+		<?php else: ?>
+			<div class="text-center text-muted py-4">
+				<i class="fa-solid fa-inbox fa-2x mb-2 d-block"></i>
+				<p class="mb-0">No hay actividad reciente</p>
+			</div>
+		<?php endif; ?>
+	</div>
+</div>
+
 
 <!-- Resumen de métricas -->
 <div class="row g-3 mb-4">
@@ -45,10 +127,10 @@
 		</div>
 	</div>
 	<div class="col-12 col-md-6 col-lg-3">
-		<?php 
-			$balanceVal = (float)($balance ?? 0);
-			$balanceClass = $balanceVal >= 0 ? 'text-success' : 'text-danger';
-			$balanceIcon  = $balanceVal >= 0 ? 'fa-circle-check' : 'fa-circle-exclamation';
+		<?php
+		$balanceVal = (float)($balance ?? 0);
+		$balanceClass = $balanceVal >= 0 ? 'text-success' : 'text-danger';
+		$balanceIcon  = $balanceVal >= 0 ? 'fa-circle-check' : 'fa-circle-exclamation';
 		?>
 		<div class="card shadow-sm h-100">
 			<div class="card-body">
@@ -63,12 +145,12 @@
 		</div>
 	</div>
 	<div class="col-12 col-md-6 col-lg-3">
-		<?php 
-			$ord = (float)($totalOrdinarios ?? 0);
-			$ext = (float)($totalExtraordinarios ?? 0);
-			$sum = ($ord + $ext);
-			$pOrd = $sum > 0 ? round(($ord / $sum) * 100) : 0;
-			$pExt = $sum > 0 ? round(($ext / $sum) * 100) : 0;
+		<?php
+		$ord = (float)($totalOrdinarios ?? 0);
+		$ext = (float)($totalExtraordinarios ?? 0);
+		$sum = ($ord + $ext);
+		$pOrd = $sum > 0 ? round(($ord / $sum) * 100) : 0;
+		$pExt = $sum > 0 ? round(($ext / $sum) * 100) : 0;
 		?>
 		<div class="card shadow-sm h-100">
 			<div class="card-body">
@@ -134,8 +216,7 @@
 			type: 'line',
 			data: {
 				labels: meses,
-				datasets: [
-					{
+				datasets: [{
 						label: 'Ingresos',
 						data: ingresos,
 						borderColor: 'rgba(13,110,253,0.9)',
@@ -155,19 +236,29 @@
 			},
 			options: {
 				responsive: true,
-				plugins: { legend: { position: 'top' } },
-				scales: { y: { beginAtZero: true } }
+				plugins: {
+					legend: {
+						position: 'top'
+					}
+				},
+				scales: {
+					y: {
+						beginAtZero: true
+					}
+				}
 			}
 		});
-	} catch (e) { console.warn('No se pudo renderizar lineChart', e); }
+	} catch (e) {
+		console.warn('No se pudo renderizar lineChart', e);
+	}
 
 	// Doughnut chart: Gastos por categoría
 	try {
 		const labelsCat = categoriasData.map(i => i.categoria ?? 'Sin nombre');
 		const totalsCat = categoriasData.map(i => Number(i.total ?? 0));
 		const colors = [
-			'#0d6efd','#6610f2','#6f42c1','#d63384','#dc3545','#fd7e14',
-			'#ffc107','#198754','#20c997','#0dcaf0','#6c757d','#343a40'
+			'#0d6efd', '#6610f2', '#6f42c1', '#d63384', '#dc3545', '#fd7e14',
+			'#ffc107', '#198754', '#20c997', '#0dcaf0', '#6c757d', '#343a40'
 		];
 
 		const ctxPie = document.getElementById('doughnutChart').getContext('2d');
@@ -183,11 +274,15 @@
 			options: {
 				responsive: true,
 				plugins: {
-					legend: { position: 'bottom' }
+					legend: {
+						position: 'bottom'
+					}
 				}
 			}
 		});
-	} catch (e) { console.warn('No se pudo renderizar doughnutChart', e); }
+	} catch (e) {
+		console.warn('No se pudo renderizar doughnutChart', e);
+	}
 </script>
 
 <?= $this->endSection() ?>

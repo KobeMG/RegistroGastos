@@ -87,6 +87,19 @@ class GastoModel extends Model
     }
 
     /**
+     * Obtener gastos recientes de un usuario
+     */
+    public function getGastosRecientes($usuarioId, $limite = 10)
+    {
+        return $this->select('gastos.*, categorias.nombre as categoria_nombre')
+                    ->join('categorias', 'categorias.id = gastos.categoria_id', 'left')
+                    ->where('gastos.usuario_id', $usuarioId)
+                    ->orderBy('gastos.fecha_gasto', 'DESC')
+                    ->limit($limite)
+                    ->findAll();
+    }
+
+    /**
      * Calcular total de gastos de un usuario
      */
     public function getTotalGastos($usuarioId)

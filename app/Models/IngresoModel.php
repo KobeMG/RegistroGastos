@@ -163,4 +163,15 @@ class IngresoModel extends Model
                     ->limit($limite * 2)
                     ->findAll();
     }
+
+    /**
+     * Obtener ingresos recientes de un usuario
+     */
+    public function getIngresosRecientes($usuarioId, $limite = 10)
+    {
+        return $this->where('usuario_id', $usuarioId)
+                    ->orderBy('fecha_ingreso', 'DESC')
+                    ->limit($limite)
+                    ->findAll();
+    }
 }
