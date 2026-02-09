@@ -2,13 +2,13 @@
 
 namespace App\Controllers\Api;
 
-use App\Controllers\BaseController;
+use App\Controllers\ApiBaseController;
 use App\Models\UsuarioModel;
 use App\Models\GastoModel;
 use App\Models\CategoriaModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class Gastos extends BaseController
+class Gastos extends ApiBaseController
 {
     /**
      * Registrar un gasto mediante API
