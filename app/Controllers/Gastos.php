@@ -10,7 +10,7 @@ class Gastos extends BaseController
     /**
      * Mostrar listado de gastos
      */
-    public function index(): string
+    public function index()
     {
         if (!session()->has('usuario_id')) {
             return redirect()->to(base_url('login'));

@@ -18,17 +18,16 @@ $routes->post('gastos/guardar', 'Gastos::guardar');
 $routes->post('gastos/actualizar/(:num)', 'Gastos::actualizar/$1');
 $routes->post('gastos/eliminar/(:num)', 'Gastos::eliminar/$1');
 
+//Ingresos - CRUD completo
+$routes->get('ingresos', 'Ingresos::index');
+$routes->post('ingresos/guardar', 'Ingresos::guardar');
+$routes->post('ingresos/actualizar/(:num)', 'Ingresos::actualizar/$1');
+$routes->post('ingresos/eliminar/(:num)', 'Ingresos::eliminar/$1');
+
 //Registro de usuarios
 $routes->get('registro', 'Auth::registro');
 $routes->get('registrar', 'Auth::registro');
 $routes->post('/registrar', 'Auth::intentarRegistrar');
-
-//Perfil de usuario
-$routes->get('perfil', 'Perfil::index');
-$routes->post('perfil/actualizar', 'Perfil::actualizar');
-$routes->post('perfil/generar-token', 'Perfil::generarToken');
-$routes->post('perfil/revocar-token', 'Perfil::revocarToken');
-
 //Gestión de ingresos
 $routes->get('perfil/nuevo-ingreso', 'Perfil::nuevoIngreso');
 $routes->post('perfil/guardar-ingreso', 'Perfil::guardarIngreso');

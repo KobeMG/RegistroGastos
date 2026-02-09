@@ -136,9 +136,9 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <button class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#modalIngreso">
-                                <i class="fa-solid fa-plus"></i> Nuevo Ingreso
-                            </button>
+                            <a class="btn btn-success text-white me-2" href="<?= base_url('ingresos') ?>">
+                                <i class="fa-solid fa-arrow-up"></i> Ingresos
+                            </a>
                         </li>
                         <li class="nav-item">
                             <a class="btn btn-outline-light ms-2" href="<?= base_url('logout') ?>">

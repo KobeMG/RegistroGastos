@@ -67,7 +67,7 @@
 										</div>
 									<?php else: ?>
 										<div class="bg-success bg-opacity-10 rounded-circle p-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
-											<i class="fa-solid fa-arrow-down text-success"></i>
+											<i class="fa-solid fa-arrow-up text-success"></i>
 										</div>
 									<?php endif; ?>
 								</div>
