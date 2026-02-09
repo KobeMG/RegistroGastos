@@ -12,13 +12,11 @@ $routes->get('login', 'Auth::index');
 $routes->post('login', 'Auth::intentarLogin');
 $routes->get('logout', 'Auth::logout');
 
-//Dashboard, menu principal de gastos.
-$routes->get('home', 'Home::index');
-//CRUD de gastos
-$routes->post('gastos/guardar', 'Home::guardarGasto');
-$routes->get('gastos/editar/(:num)', 'Home::editarGasto/$1');
-$routes->post('gastos/actualizar/(:num)', 'Home::actualizarGasto/$1');
-$routes->post('gastos/eliminar/(:num)', 'Home::eliminarGasto/$1');
+//Gastos - CRUD completo
+$routes->get('gastos', 'Gastos::index');
+$routes->post('gastos/guardar', 'Gastos::guardar');
+$routes->post('gastos/actualizar/(:num)', 'Gastos::actualizar/$1');
+$routes->post('gastos/eliminar/(:num)', 'Gastos::eliminar/$1');
 
 //Registro de usuarios
 $routes->get('registro', 'Auth::registro');

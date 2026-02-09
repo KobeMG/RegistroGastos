@@ -131,9 +131,9 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <button class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#modalGasto">
-                                <i class="fa-solid fa-plus"></i> Nuevo Gasto
-                            </button>
+                            <a class="btn btn-danger text-white me-2" href="<?= base_url('gastos') ?>">
+                                <i class="fa-solid fa-receipt"></i> Gastos
+                            </a>
                         </li>
                         <li class="nav-item">
                             <button class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#modalIngreso">
